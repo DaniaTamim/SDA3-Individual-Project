@@ -6,13 +6,14 @@
 package Model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
  *
  * @author tmp-sda-1171
  */
-public class Task  implements Comparable,Serializable {
+public class Task implements Comparable, Serializable {
 
     private String Title;
 
@@ -77,29 +78,77 @@ public class Task  implements Comparable,Serializable {
 
         return this;
     }
-    
-    
 
     public void markAsDone(Task task) {
-        this.isDone=true;
+        this.isDone = true;
 
     }
 
     @Override
     public String toString() {
+        
+//         SimpleDateFormat form = new SimpleDateFormat("MM-dd-yyyy");
+//        Date date = form.parse("11-12-1111");
+//        Date date2 = new Date();
+//        
+//        
+//        System.out.println(date);
+//        System.out.println("2: " + form.format(date));
+//        
+        
         return " * " + getTitle() + "   The due date is : " + getDueDate() + "    The project is : " + getProject() + "       Task is done" + isIsDone();
 
     }
 
-   
-
+    /*
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Object task) {
         
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //if (this.getProject().compareTo(task.getProject()))
+           // return 
+           
+           Task t=(Task) task;
+        if (task == null )
+        {
+            return -500;
+        }
+        
+        if (this.getProject().equals(t.getProject()))
+            {
+                return 0;
+            }
+        
+        
+        if (!this.getProject().contentEquals(t.getProject()))
+            {
+                    return this.compareTo(t.getProject());
+           
+            }
+        
+        
+        
+        }
+     */
+    @Override
+    public int compareTo(Object task) {
+
+        //if (this.getProject().compareTo(task.getProject()))
+        // return 
+        Task t = (Task) task;
+        if (task == null) {
+            return -500;
+        }
+
+        if (this.getDueDate().equals(t.getDueDate())) {
+            //compare by 
+            return this.getProject().compareTo(t.getProject());
+
+        } else {
+
+            return this.getDueDate().compareTo(t.getDueDate());
+
+        }
+
     }
 
-    
-    
-    
 }

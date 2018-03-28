@@ -80,7 +80,8 @@ public class View {
                     }
                     case 3: {
                         subMenuNum = 3;
-                        showUpdateTaskMenu();
+                        UpdateTasks();
+                        
                         
                         break;
                     }
@@ -182,7 +183,7 @@ public class View {
 
     private void showAddTaskMenu() {
 
-        try {
+        
             System.out.println(" \n  >> (2) Add New Task \n ");
             System.out.println("Enter Title :\n ");
             String title = readText();
@@ -202,22 +203,11 @@ public class View {
             // System.out.println(newtask.toString());
             printMenu();
 
-        } catch (ParseException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
 
     }
 
-    private void showUpdateTaskMenu() {
-        System.out.println(" \n Edit Task :"
-                + ">> (1) Update Task "
-                + ">> (2) Mark Task as Done"
-                + ">> (3) Remove Task) \n "
-                 + ">> (0) To Go Back \n "
-                + ">> \n "
-                + ">>  Enter your choice : \n");
-        parseUserInput(getUserInput());
-    }
+
 
     private void showExitMenu() {
         contr.saveToDoList();
@@ -243,11 +233,20 @@ public class View {
         return userInput;
     }
 
-    public Date stringToDate(String dateString) throws ParseException {
-        //String string = "January 2, 2010";
-        DateFormat format = new SimpleDateFormat("DD-MM-yyyy");
-        Date date = format.parse(dateString);
-
+    public Date stringToDate(String dateString)  {
+        //String string = "January 2, 2010";''
+        Date date = null ;
+        try{
+        DateFormat form = new SimpleDateFormat("MM-dd-yyyy");
+        date = form.parse(dateString);}
+        catch(ParseException ex)
+        {
+            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
+        //Date date2= (Date)form.format(date);
+       
+     
         return date;
 
     }
@@ -262,6 +261,37 @@ public class View {
                 + ">>  Enter your choice : \n");
        parseUserInput(getUserInput());
 
+    }
+
+        private void showUpdateTaskMenu() {
+        
+        System.out.println(" \n Edit Task :"
+                + ">> (1) Update Task "
+                + ">> (2) Mark Task as Done"
+                + ">> (3) Remove Task) \n "
+                 + ">> (0) To Go Back \n "
+                + ">> \n "
+                + ">>  Enter your choice : \n");
+        parseUserInput(getUserInput());
+    }
+        
+    private void UpdateTasks()  {
+        printToDoList(contr.getTasks());
+        System.out.println("Enter the number of the task you want to edit : ");
+        int index= getUserInput();
+        
+       
+       // edit title
+        System.out.println("Enter the new title :");
+       String newTitle=readText();
+       // edit Date
+        System.out.println("Enter the new Due Date :");
+       Date newDate=stringToDate(readText());
+       //edit Project
+        System.out.println("Enter the new project :");
+       String newProject=readText();
+       contr.updateTask(index, newTitle, newDate, newProject);
+         parseUserInput(getUserInput());
     }
 
 }

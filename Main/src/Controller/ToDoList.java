@@ -9,6 +9,7 @@ import Data.MyFileHandler;
 import Model.Task;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 
 /**
@@ -26,14 +27,14 @@ public class ToDoList {
     //******************************'
     public ToDoList(String name) throws IOException {
         this.myFileHandler = new MyFileHandler("ToDoListFile.txt");
-        
+
         this.name = name;
         tasks = myFileHandler.readToDoList();
     }
 
     public ToDoList(String name, ArrayList<Task> tasks) throws IOException {
         this.myFileHandler = new MyFileHandler("ToDoListFile.txt");
-       
+
         this.name = name;
         this.tasks = tasks;
 
@@ -61,7 +62,13 @@ public class ToDoList {
 
     }
 
-    public void updateTask(Task task) {
+    public void updateTask(int index, String newTitle, Date newDate, String newProject) {
+        if (index < tasks.size()) 
+        {
+            tasks.get(index).setDueDate(newDate);
+            tasks.get(index).setProject(newProject);
+            tasks.get(index).setTitle(newTitle);
+        }
 
     }
 
@@ -103,13 +110,6 @@ public class ToDoList {
         return myFileHandler.readToDoList();
     }
 
-    // Print arraylist
-/*    public void printToDoList(ArrayList<Task> tasks) {
-        tasks.forEach((task) -> {
-            System.out.println(task.toString());
-        }); 
-    }
-*/
     public int numOfDoneTask() {
 
         int filteredByDoneTasks = 0;
@@ -120,8 +120,6 @@ public class ToDoList {
             }
         }
 
-//        tasks.stream().filter((task) -> (task.isIsDone()==true)).sum();
-//        });
         return filteredByDoneTasks;
     }
 
@@ -131,58 +129,22 @@ public class ToDoList {
 
     }
 
-//    public void sortTasksByDueDate() {
-//        Collections.sort(tasks, new Comparator<Task>() {
-//
-//            public String compare(Task t1, Task t2) {
-//                return String.valueOf(t1.getProject(),t2.getProject());
-//                
-//            }
-//
-//        });
-
-//    ArrayList<Task> sortedByDueDate = new ArrayList<>();
-//    
-//    for (int i =0; i< tasks.size();i++)
-//    {   
-//        
-//    }
-//
-//    return sortedByDueDate.sort(c);
-//    }
-    /*public ArrayList searchTaskList_byProject(String project, ArrayList<Task> tasks) {
-
-        ArrayList<Task> filteredByProjectTasks = new ArrayList<Task>();
-
-        for (Task task : tasks) {
-            if (task.getProject().equals("project")) {
-                filteredByProjectTasks.add(task);
-            }
-
-        }
-        return filteredByProjectTasks;
-    }*/
-
- /*public ArrayList searchTaskList_byDueDate(Date dueDate, ArrayList<Task> tasks) {
-
-        ArrayList<Task> filteredByDueDateTasks = new ArrayList<Task>();
-
-        for (Task task : tasks) {
-            if (task.getDueDate() == dueDate) {
-                filteredByDueDateTasks.add(task);
-            }
-
-        }
-        return filteredByDueDateTasks;
-    }*/
+    public ArrayList<Task> sortByDueDate(ArrayList<Task> list) {
+        //tasks.get(i).compare();
+        Collections.sort(list);
+        return list;
+    }
 
     public ArrayList<Task> sortByDueDate() {
         //tasks.get(i).compare();
-        return this.tasks;
+        return sortByDueDate(tasks);
+        /*ArrayList<Task> arr = new ArrayList<>();
+        Collections.sort(tasks);
+        return tasks;*/
     }
 
     public ArrayList<Task> sortByProject() {
-     //tasks.get(i).compare();
+        //tasks.get(i).compare();
         return this.tasks;
     }
 }
