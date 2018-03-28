@@ -5,13 +5,14 @@
  */
 package Model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author tmp-sda-1171
  */
-public class Task {
+public class Task  implements Comparable,Serializable {
 
     private String Title;
 
@@ -86,10 +87,19 @@ public class Task {
 
     @Override
     public String toString() {
-        return " * " + getTitle() + "The due date is : " + getDueDate() + "The project is : " + getProject() + "Task is done" + isIsDone();
+        return " * " + getTitle() + "   The due date is : " + getDueDate() + "    The project is : " + getProject() + "       Task is done" + isIsDone();
 
     }
 
- 
+   
 
+    @Override
+    public int compareTo(Object o) {
+        
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    
+    
+    
 }

@@ -32,8 +32,14 @@ public class View {
     public void printWelcome() {
 
         System.out.println(">> Welcome to ToDoly \n "
-                + ">> You have   " + contr.numOfNotDoneTask() + "  tasks todo and   " + contr.numOfDoneTask() + "  tasks are done! \n "
-                + ">> Pick an option: \n "
+                + ">> You have   " + contr.numOfNotDoneTask() + "  tasks todo and   " + contr.numOfDoneTask() + "  tasks are done! \n ");
+
+    }
+
+    public void printMenu() {
+        if (subMenuNum == 10)
+
+        System.out.println(">> Pick an option: \n "
                 + ">> (1) Show Task List (by date or project) \n "
                 + ">> (2) Add New Task \n "
                 + ">> (3) Edit Task (update, mark as done, remove) \n "
@@ -58,76 +64,119 @@ public class View {
 
     public void parseUserInput(int input) {
 
-        if (subMenuNum == 10) {
-            switch (input) {
-                case 1: {
-                    subMenuNum = 1;
-                    showTaskMenu();
-                    break;
-                }
-                case 2: {
-                    subMenuNum = 2;
-                    showAddTaskMenu();
-                    break;
-                }
-                case 3: {
-                    subMenuNum = 3;
-                    showUpdateTaskMenu();
-                    break;
-                }
-                case 4: {
-                    subMenuNum = 4;
-                    showExitMenu();
-                    break;
-                }
-
-                default: {
-                    subMenuNum = 0;
-                    System.out.println("Enter a valid number from the list please !");
-
-                }
-            }
-        } else if (subMenuNum == 1) {
-            switch (input) {
-                case 1: {
-                    contr.printToDoList(contr.searchByDueDate(null));
-                    break;
-                }
-                case 2: {
-                    contr.printToDoList(contr.searchByProject(null));
-                    break;
-                }
-                default: {
-
-                    System.out.println("Enter a valid number from the list please !");
-
-                }
-
-            }}
-        else if (subMenuNum == 3) 
+        switch (subMenuNum) {
+            case 10:
             {
                 switch (input) {
                     case 1: {
-                        contr.printToDoList(contr.searchByDueDate(null));
+                        subMenuNum = 1;
+                        showTaskMenu();
                         break;
                     }
                     case 2: {
-                        contr.printToDoList(contr.searchByProject(null));
+                        subMenuNum = 10;
+                        showAddTaskMenu();
                         break;
                     }
-                    default: {
+                    case 3: {
+                        subMenuNum = 3;
+                        showUpdateTaskMenu();
+                        
+                        break;
+                    }
+                    case 4: {
+                        subMenuNum = 4;
+                        showExitMenu();
+                        break;
+                    }
 
-                        System.out.println("Enter a valid number from the list please !");
+                    default: {
+                        subMenuNum = 10;
+                        System.out.println("HHSDFHDFHA Enter a valid number from the list please !");
+                        break;
 
                     }
                 }
-
+                break;
             }
+            case 1:
+                switch (input) {
+                    case 1: {
+                        
+                        System.out.println("Date Sorted");
+                        printToDoList(contr.sortByDueDate());
+                        subMenuNum = 10;
+                        break;
+                    }
+                    case 2: {
+                        System.out.println("Project Sorted");
+                        printToDoList(contr.sortByProject());
+                        subMenuNum = 10;
+                        break;
+                    }
+                    case 0: {
+                        subMenuNum = 10;
+                        printMenu();
+                        break;
+                    }
+                    default: {
+                        subMenuNum = 1;
+                        System.out.println("Enter a valid number from the list please !");
+                        break;
+                    }
 
+                }
+                break;
+            case 3:
+                switch (input) {
+                    case 1: {
+                        //updatetask
+                        //contr.printToDoList(contr.searchByDueDate(null));
+                        subMenuNum = 10;
+                        break;
+                    }
+                    case 2: {
+                        //contr.setTaskDone(task);
+                        subMenuNum = 10;
+                        break;
+                    }
+                    case 3: {
+                        // contr.removeTask(task);
+                        subMenuNum = 10;
+                    }
+                    case 0: {
+                        subMenuNum = 10;
+                        printMenu();
+                        break;
+                    }
+                    default: {
+                        System.out.println("Enter a valid number from the list please !");
+                        break;
+
+                    }
+                }
+                break;
+            case 4:{
+                System.exit(0);
+                break;
+            }
+            default:
+                break;
         }
-    
 
-    public void printToDoList() {
+    }
+
+    public void printToDoList(ArrayList<Task> tasks) {
+        
+        
+            for (int i=0 ; i< tasks.size();i++)
+            {
+            System.out.println("("+i+")" +  tasks.get(i).toString());
+            }
+        
+            parseUserInput(getUserInput());
+            
+      
 
     }
 
@@ -150,6 +199,9 @@ public class View {
             contr.addTask(newtask);
 
             System.out.println("Task Added \n ");
+            // System.out.println(newtask.toString());
+            printMenu();
+
         } catch (ParseException ex) {
             Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -158,20 +210,21 @@ public class View {
 
     private void showUpdateTaskMenu() {
         System.out.println(" \n Edit Task :"
-                + "(Update Task "
-                + " Mark Task as Done"
-                + " Remove Task) \n "
+                + ">> (1) Update Task "
+                + ">> (2) Mark Task as Done"
+                + ">> (3) Remove Task) \n "
+                 + ">> (0) To Go Back \n "
                 + ">> \n "
                 + ">>  Enter your choice : \n");
+        parseUserInput(getUserInput());
     }
 
     private void showExitMenu() {
-        //MyFileHandler myfileHandler=new MyFileHandler();
+        contr.saveToDoList();
         System.out.println(">> \n "
                 + ">> Good Bye .. Have A Nice Day "
                 + " Saving . . . and Exit  \n "
                 + ">> \n ");
-
         // myfileHandler.saveFile();
         // exit program
     }
@@ -192,7 +245,7 @@ public class View {
 
     public Date stringToDate(String dateString) throws ParseException {
         //String string = "January 2, 2010";
-        DateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        DateFormat format = new SimpleDateFormat("DD-MM-yyyy");
         Date date = format.parse(dateString);
 
         return date;
@@ -204,17 +257,11 @@ public class View {
         System.out.println(" \n "
                 + ">> (1) Show Task List by date  \n "
                 + ">> (2) Show Task List by project \n "
+                + ">> (0) To Go Back \n "
                 + ">> \n "
                 + ">>  Enter your choice : \n");
-        int choice = getUserInput();
-        parseUserInput(choice);
+       parseUserInput(getUserInput());
 
-//        if (choice == 1) {
-//            // searchTaskList_byDueDate
-//
-//        } else if (choice == 2) {
-//            //searchTaskList_byProject
-//        }
     }
 
 }

@@ -7,9 +7,8 @@ package Controller;
 
 import Data.MyFileHandler;
 import Model.Task;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -25,14 +24,16 @@ public class ToDoList {
     private MyFileHandler myFileHandler;
 
     //******************************'
-    public ToDoList(String name) {
-        this.myFileHandler = new MyFileHandler();
+    public ToDoList(String name) throws IOException {
+        this.myFileHandler = new MyFileHandler("ToDoListFile.txt");
+        
         this.name = name;
-        tasks = new ArrayList<>();
+        tasks = myFileHandler.readToDoList();
     }
 
-    public ToDoList(String name, ArrayList<Task> tasks) {
-        this.myFileHandler = new MyFileHandler();
+    public ToDoList(String name, ArrayList<Task> tasks) throws IOException {
+        this.myFileHandler = new MyFileHandler("ToDoListFile.txt");
+       
         this.name = name;
         this.tasks = tasks;
 
@@ -65,7 +66,7 @@ public class ToDoList {
     }
 
     public void setTaskDone(Task task) {
-
+        task.setIsDone(true);
     }
 
     public void removeTask(Task task) {
@@ -103,12 +104,12 @@ public class ToDoList {
     }
 
     // Print arraylist
-    public void printToDoList(ArrayList<Task> tasks) {
-        tasks.forEach((t) -> {
-            t.toString();
-        });
+/*    public void printToDoList(ArrayList<Task> tasks) {
+        tasks.forEach((task) -> {
+            System.out.println(task.toString());
+        }); 
     }
-
+*/
     public int numOfDoneTask() {
 
         int filteredByDoneTasks = 0;
@@ -174,4 +175,14 @@ public class ToDoList {
         }
         return filteredByDueDateTasks;
     }*/
+
+    public ArrayList<Task> sortByDueDate() {
+        //tasks.get(i).compare();
+        return this.tasks;
+    }
+
+    public ArrayList<Task> sortByProject() {
+     //tasks.get(i).compare();
+        return this.tasks;
+    }
 }
