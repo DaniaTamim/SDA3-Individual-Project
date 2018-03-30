@@ -38,7 +38,7 @@ public class Main {
 
             viewer.parseUserInput(res);
 
-        } while(res!= 4);
+        } while(res!= 5);
 
     }
 

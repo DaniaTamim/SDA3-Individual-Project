@@ -42,7 +42,8 @@ public class View {
                 + ">> (1) Show Task List (Sorted by date or project) \n "
                 + ">> (2) Add New Task \n "
                 + ">> (3) Edit Task (update, mark as done, remove) \n "
-                + ">> (4) Save and Quit  \n "
+                + ">> (4) Search By Project Name \n "
+                + ">> (5) Save and Quit  \n "
                 + ">> \n "
                 + ">>  Enter your choice : \n");
         parseUserInput(getUserInput());
@@ -85,7 +86,10 @@ public class View {
                         break;
                     }
                     case 4: {
-                        menuType = "ExitMenu";
+                        showSearchMenu();
+                        break;
+                    }
+                    case 5: {
                         showExitMenu();
                         break;
                     }
@@ -173,6 +177,8 @@ public class View {
             
             System.out.println("(" + i + ")" + tasks.get(i).toString());
         }
+        
+        System.out.println();
 
     }
 
@@ -368,6 +374,16 @@ public class View {
         System.out.println("***************************************");
        showTaskMenu();
 
+    }
+
+    private void showSearchMenu() {
+        System.out.println("Enter Project Name : \n");
+        String searchedProject= readText();
+        ArrayList searchTask=contr.searchByProject(searchedProject);
+        printToDoList(searchTask);
+         printMenu();
+        
+              
     }
 
 }
