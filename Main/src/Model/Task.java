@@ -87,50 +87,33 @@ public class Task implements Comparable, Serializable {
     @Override
     public String toString() {
 
-//         SimpleDateFormat form = new SimpleDateFormat("MM-dd-yyyy");
-//        Date date = form.parse("11-12-1111");
-//        Date date2 = new Date();
+        SimpleDateFormat form = new SimpleDateFormat("MM-dd-yyyy");
+        Date date = getDueDate();
+
 //        
-//        
-//        System.out.println(date);
-//        System.out.println("2: " + form.format(date));
-//        
-        return   " *   " + getTitle() + "   "
-                +"  project is : " + getProject() + "   " 
-                +" due date is : " + getDueDate() +  "   "
-                +"       Task is done  " + isIsDone();
+        return " *   " + getTitle() + "   "
+                + "  project is : " + getProject() + "   "
+                + " due date is : " + form.format(date) + "   "
+                + "       Task is done  " + isIsDone();
 
     }
 
-    /*
-    @Override
-    public int compareTo(Object task) {
-        
-        //if (this.getProject().compareTo(task.getProject()))
-           // return 
-           
-           Task t=(Task) task;
-        if (task == null )
-        {
-            return -500;
-        }
-        
-        if (this.getProject().equals(t.getProject()))
-            {
-                return 0;
-            }
-        
-        
-        if (!this.getProject().contentEquals(t.getProject()))
-            {
-                    return this.compareTo(t.getProject());
-           
-            }
-        
-        
-        
-        }
-     */
+//    @Override
+//    public int compareTo(Object task) {
+//
+//        Task t = (Task) task;
+//        if (task == null) {
+//            return -500;
+//        }
+//
+//        if (this.getProject().equals(t.getProject())) {
+//            return this.getDueDate().compareTo(t.getDueDate());
+//        } else {
+//            return this.getProject().compareTo(t.getProject());
+//        }
+//
+//    }
+
     @Override
     public int compareTo(Object task) {
 
@@ -170,5 +153,4 @@ public class Task implements Comparable, Serializable {
 //        return task;
 //        }
 //    }
-
 }
