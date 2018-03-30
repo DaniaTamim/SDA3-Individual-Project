@@ -86,7 +86,7 @@ public class Task implements Comparable, Serializable {
 
     @Override
     public String toString() {
-        
+
 //         SimpleDateFormat form = new SimpleDateFormat("MM-dd-yyyy");
 //        Date date = form.parse("11-12-1111");
 //        Date date2 = new Date();
@@ -95,8 +95,10 @@ public class Task implements Comparable, Serializable {
 //        System.out.println(date);
 //        System.out.println("2: " + form.format(date));
 //        
-        
-        return " * " + getTitle() + "   The due date is : " + getDueDate() + "    The project is : " + getProject() + "       Task is done" + isIsDone();
+        return   " *   " + getTitle() + "   "
+                +"  project is : " + getProject() + "   " 
+                +" due date is : " + getDueDate() +  "   "
+                +"       Task is done  " + isIsDone();
 
     }
 
@@ -150,5 +152,23 @@ public class Task implements Comparable, Serializable {
         }
 
     }
+
+//    public static <T extends Comparable<T>> T compareTo(T task) {
+//
+//        //if (this.getProject().compareTo(task.getProject()))
+//        // return 
+//        T m = task;
+//        if (m.compareTo(task) == 0) {
+//              
+//            return task;
+//        
+//        }
+//        else if (m.compareTo(task)>0){
+//        return m;
+//        }
+//        else {
+//        return task;
+//        }
+//    }
 
 }

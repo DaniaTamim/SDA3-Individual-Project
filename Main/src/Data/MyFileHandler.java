@@ -31,8 +31,6 @@ public class MyFileHandler {
 
     }
 
- 
-
     public ArrayList<Task> readToDoList() {
 
         ArrayList<Task> readedtasks = new ArrayList<>();
@@ -40,11 +38,14 @@ public class MyFileHandler {
             FileInputStream fileStream = new FileInputStream(file);
             ObjectInputStream objStream = new ObjectInputStream(fileStream);
 
+           
             /*if(objStream.readObject() == null)
                 readedtasks = new ArrayList<Task>();
             else 
             // Read objects*/
             readedtasks = (ArrayList<Task>) objStream.readObject();
+            fileStream.close();
+            objStream.close();
         } catch (IOException | ClassNotFoundException ioe) {
             System.out.println("Data.MyFileHandler.readToDoList()");
         }
@@ -58,11 +59,15 @@ public class MyFileHandler {
      */
     public void saveToDoList(ArrayList<Task> tasks) {
 
+        FileOutputStream fileStream;
+        ObjectOutputStream objStream;
         try {
-            FileOutputStream fileStream = new FileOutputStream(file);
-            ObjectOutputStream objStream = new ObjectOutputStream(fileStream);
+            fileStream = new FileOutputStream(file);
+            objStream = new ObjectOutputStream(fileStream);
 
             objStream.writeObject(tasks);
+            fileStream.close();
+            objStream.close();
         } catch (Exception e) {
             System.out.println("Data.MyFileHandler.readToDoList()");
         }
@@ -70,14 +75,3 @@ public class MyFileHandler {
     }
 
 }
-/*  File file = new File(fileName);
-            PrintWriter out;
-            try {
-            out = new PrintWriter(file);
-            tasks.forEach((task) -> {
-            out.println(task.toString());
-            });
-            out.close();
-            } catch (IOException e) {
-            System.out.println(e.getMessage());
-            }*/

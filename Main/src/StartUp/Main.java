@@ -15,7 +15,7 @@ import java.io.IOException;
  */
 public class Main {
 
-    private View viewer;
+    //private View viewer;
 
     /**
      * @param args the command line arguments
@@ -23,7 +23,9 @@ public class Main {
     public static void main(String[] args) throws IOException {
 
         // TODO code application logic here
+        
         ToDoList contr = new ToDoList("Dania");
+        
         View viewer = new View(contr);
 
         viewer.printWelcome();
