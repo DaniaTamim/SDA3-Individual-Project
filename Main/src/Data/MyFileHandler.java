@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author tmp-sda-1171
+ * @author Dania Tamim
  */
 public class MyFileHandler {
 
@@ -30,7 +30,10 @@ public class MyFileHandler {
         file.createNewFile();
 
     }
-
+/**
+ * read the tasks from the file
+ * @return ArrayList of Tasks
+ */
     public ArrayList<Task> readToDoList() {
 
         ArrayList<Task> readedtasks = new ArrayList<>();
@@ -54,8 +57,8 @@ public class MyFileHandler {
     }
 
     /**
-     *
-     * @param tasks
+     * Save the tasks to the file 
+     * @param ArrayList of tasks
      */
     public void saveToDoList(ArrayList<Task> tasks) {
 

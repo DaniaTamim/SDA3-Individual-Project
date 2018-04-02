@@ -11,7 +11,7 @@ import java.util.Date;
 
 /**
  *
- * @author tmp-sda-1171
+ * @author Dania Tamim
  */
 public class Task implements Comparable, Serializable {
 
@@ -22,6 +22,7 @@ public class Task implements Comparable, Serializable {
     private boolean isDone;
 
     private String project;
+    
 
     public Task(String Title, Date dueDate, String project) {
         this.Title = Title;
@@ -65,10 +66,26 @@ public class Task implements Comparable, Serializable {
     }
 
     //*******************************
+    /**
+     * Add New Task with the status undone by default
+     * @param title
+     * @param dutDate
+     * @param project
+     * @return new Task object
+     */
     public Task addTask(String title, Date dutDate, String project) {
         return new Task(title, dueDate, project);
     }
 
+    
+    /**
+     * Update the task with new values
+     * @param title
+     * @param dutDate
+     * @param isdone
+     * @param project
+     * @return the Task with the updated values 
+     */
     public Task updateTask(String title, Date dutDate, boolean isdone, String project) {
 
         this.Title = title;
@@ -79,10 +96,11 @@ public class Task implements Comparable, Serializable {
         return this;
     }
 
-    public void markAsDone(Task task) {
-        this.isDone = true;
-
-    }
+  /**
+   * override the tosString method to be able to print the Tasks 
+   * and save it to the file 
+   * @return String of the Tasks Object attributes
+   */
 
     @Override
     public String toString() {
@@ -90,11 +108,18 @@ public class Task implements Comparable, Serializable {
         SimpleDateFormat form = new SimpleDateFormat("MM-dd-yyyy");
         Date date = getDueDate();
 
+        String status;
+        if (isIsDone() == true) {
+            status = "Task is Done ";
+        } else {
+            status = "Task is NOT Done ";
+        }
+
 //        
         return " *   " + getTitle() + "   "
                 + "  project is : " + getProject() + "   "
                 + " due date is : " + form.format(date) + "   "
-                + "       Task is done  " + isIsDone();
+                + status + "\n";
 
     }
 
@@ -113,7 +138,15 @@ public class Task implements Comparable, Serializable {
 //        }
 //
 //    }
-
+    
+    
+    /**
+     * Compare two tasks objects with the due date 
+     * and if it is equals compare them by the project name
+     * @param task 
+     * @return 0 if the two tasks are equal and 1 if the first is bigger or -1 if it is smaller
+     */
+    
     @Override
     public int compareTo(Object task) {
 
@@ -125,7 +158,7 @@ public class Task implements Comparable, Serializable {
         }
 
         if (this.getDueDate().equals(t.getDueDate())) {
-            //compare by 
+            //compare by project 
             return this.getProject().compareTo(t.getProject());
 
         } else {

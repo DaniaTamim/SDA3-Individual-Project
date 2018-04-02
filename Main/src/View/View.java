@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  */
 /**
  *
- * @author tmp-sda-1171
+ * @author Dania Tamim
  */
 public class View {
 
@@ -29,6 +29,9 @@ public class View {
         this.contr = contr;
     }
 
+    /**
+     * print a welcome message on the start
+     */
     public void printWelcome() {
 
         System.out.println(">> Welcome to ToDoly \n "
@@ -36,6 +39,9 @@ public class View {
 
     }
 
+    /**
+     * printing a list of options to the user to deal with the program
+     */
     public void printMenu() {
 
         System.out.println(">> Pick an option: \n "
@@ -50,6 +56,11 @@ public class View {
 
     }
 
+    /**
+     * read the user input as an integer
+     *
+     * @return the number which the user enter it
+     */
     public int getUserInput() {
 
         int userInput = 0;
@@ -57,12 +68,18 @@ public class View {
             Scanner scanner = new Scanner(System.in);
             userInput = scanner.nextInt();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println("Enter a number please !");
         }
 
         return userInput;
     }
 
+    /**
+     * Translate the user input to the corresponding menu and deal with the
+     * input if it is in the main menu or in sub menu
+     *
+     * @param input as an integer
+     */
     public void parseUserInput(int input) {
 
         switch (menuType) {
@@ -74,7 +91,7 @@ public class View {
                         break;
                     }
                     case 2: {
-                       
+
                         showAddTaskMenu();
                         // menuType = "MainMenu";
                         break;
@@ -101,24 +118,24 @@ public class View {
 
                     }
                 }
-                break;
+
             }
             case "ShowMenu":
                 switch (input) {
                     case 1: {
-                        
+
                         menuType = "ShowMenu";
                         showByDate();
                         break;
                     }
                     case 2: {
-                        
+
                         menuType = "ShowMenu";
                         showByProject();
                         break;
                     }
                     case 0: {
-                        
+
                         menuType = "MainMenu";
                         printMenu();
                         break;
@@ -130,7 +147,7 @@ public class View {
                     }
 
                 }
-                break;
+
             case "EditMenu":
                 switch (input) {
                     case 1: {
@@ -150,9 +167,10 @@ public class View {
                         menuType = "EditMenu";
                     }
                     case 0: {
-                        printMenu();
                         menuType = "MainMenu";
-                       break;
+                        printMenu();
+
+                        break;
                     }
                     default: {
                         menuType = "EditMenu";
@@ -161,31 +179,39 @@ public class View {
 
                     }
                 }
-                break;
-           
+
             default:
                 menuType = "MainMenu";
-                System.out.println("Enter a valid number from the list please !");
+                System.out.println("upper switch :: Enter a valid number from the list please !");
                 break;
         }
 
     }
 
+    /**
+     * print the ArrayList of Task which pass to it
+     *
+     * @param tasks as ArrayList
+     */
     public void printToDoList(ArrayList<Task> tasks) {
 
         for (int i = 0; i < tasks.size(); i++) {
-            
+
             System.out.println("(" + i + ")" + tasks.get(i).toString());
         }
-        
+
         System.out.println();
 
     }
 
+    /**
+     * printing the menu to Add new task,take the information from the user and
+     * pass it to the controller to create it
+     */
     private void showAddTaskMenu() {
 
         System.out.println(" \n  >> (2) Add New Task \n ");
-        
+
         System.out.println("Enter Title :\n ");
         String title = readText();
 
@@ -201,11 +227,14 @@ public class View {
         contr.addTask(newtask);
 
         System.out.println("Task Added \n ");
-        // System.out.println(newtask.toString());
+
         printMenu();
 
     }
 
+    /**
+     * Save the tasks to the file throw the controller and close the program
+     */
     private void showExitMenu() {
         contr.saveToDoList();
         System.out.println(">> \n "
@@ -213,10 +242,14 @@ public class View {
                 + " Saving . . . and Exit  \n "
                 + ">> \n ");
         System.exit(0);
-        
+
     }
 
-    // Read text from user :
+    /**
+     * read the user in put as text
+     *
+     * @return String of the input
+     */
     public String readText() {
 
         String userInput = "";
@@ -230,6 +263,13 @@ public class View {
         return userInput;
     }
 
+    /**
+     * Convert the text which the user write to a date type using the format we
+     * provide to it
+     *
+     * @param dateString
+     * @return Date data type of the input
+     */
     public Date stringToDate(String dateString) {
         //String string = "January 2, 2010";''
         Date date = null;
@@ -240,11 +280,13 @@ public class View {
             Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        //Date date2= (Date)form.format(date);
         return date;
 
     }
 
+    /**
+     * printing show list menu to the user
+     */
     private void showTaskMenu() {
 
         System.out.println(" \n "
@@ -257,10 +299,13 @@ public class View {
 
     }
 
+    /**
+     * printing the Edit task menu to the user
+     */
     private void showUpdateTaskMenu() {
 
         System.out.println(" \n "
-                + "Edit Task :  \n"
+                + ">> Edit Task :  \n"
                 + ">> (1) Update Task  \n "
                 + ">> (2) Mark Task as Done  \n"
                 + ">> (3) Remove Task) \n "
@@ -270,6 +315,9 @@ public class View {
         parseUserInput(getUserInput());
     }
 
+    /**
+     * Allow the user to update a specific task
+     */
     private void UpdateTasks() {
 
         String tmpTitle, newTitle, tmpProject, newProject, tmpDate;
@@ -285,11 +333,12 @@ public class View {
         if (tmpTitle.equals("no")) {
 
             newTitle = contr.getTasks().get(index).getTitle();
-        } else {
+        } 
+        else {
             newTitle = tmpTitle;
 
         }
-         //edit Project
+        //edit Project
         System.out.println("Enter the new project , or enter no to keep it :");
 
         tmpProject = readText();
@@ -298,11 +347,12 @@ public class View {
 
             newProject = contr.getTasks().get(index).getProject();
 
-        } else {
+        } 
+        else {
             newProject = tmpProject;
 
         }
-        
+
         // edit Date
         System.out.println("Enter the new Due Date, or enter no to keep it  :");
 
@@ -312,28 +362,31 @@ public class View {
 
             newDate = contr.getTasks().get(index).getDueDate();
 
-        } else {
+        } 
+        else {
             newDate = stringToDate(tmpDate);
 
         }
 
-       
-
         contr.updateTask(index, newTitle, newDate, newProject);
-        
+
         System.out.println("Task Updated Successfully");
         showUpdateTaskMenu();
 
-        
     }
 
+    /**
+     * mark the specific task as done
+     */
     private void setAsDone() {
         int index = getWantedTaskIndex();
         contr.getTasks().get(index).setIsDone(true);
         System.out.println("Great job !!");
         showUpdateTaskMenu();
     }
-
+/**
+ * Remove task from the ArrayList of tasks
+ */
     private void removeTask() {
         int index = getWantedTaskIndex();
         contr.getTasks().remove(index);
@@ -341,6 +394,11 @@ public class View {
         showUpdateTaskMenu();
     }
 
+    /**
+     * Print the ArrayList of tasks and get the index of the task we choose 
+     * and check if it is a valid index
+     * @return index as integer
+     */
     private int getWantedTaskIndex() {
 
         printToDoList(contr.getTasks());
@@ -349,7 +407,7 @@ public class View {
 
         int index = getUserInput();
 
-        if (index< contr.getTasks().size()) {
+        if (index < contr.getTasks().size()) {
             return index;
         } else {
             System.out.println("Not a valid index !! ");
@@ -357,6 +415,10 @@ public class View {
 
         }
     }
+    
+    /**
+     * print the ArrayList of tasks sorted by Due date
+     */
 
     private void showByDate() {
 
@@ -364,26 +426,30 @@ public class View {
         printToDoList(contr.sortByDueDate());
         System.out.println("***************************************");
         showTaskMenu();
-     
 
     }
 
+    /**
+     * print the ArrayList of tasks sorted by Project
+     */
     private void showByProject() {
         System.out.println("*********    Project Sorted  **********");
         printToDoList(contr.sortByProject());
         System.out.println("***************************************");
-       showTaskMenu();
+        showTaskMenu();
 
     }
-
+/**
+ * Searching the ArrayList of tasks for the specified project name
+ * and print the filtered list to the user
+ */
     private void showSearchMenu() {
         System.out.println("Enter Project Name : \n");
-        String searchedProject= readText();
-        ArrayList searchTask=contr.searchByProject(searchedProject);
+        String searchedProject = readText();
+        ArrayList searchTask = contr.searchByProject(searchedProject);
         printToDoList(searchTask);
-         printMenu();
-        
-              
+        printMenu();
+
     }
 
 }

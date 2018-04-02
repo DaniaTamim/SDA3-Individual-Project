@@ -14,7 +14,7 @@ import java.util.Date;
 
 /**
  *
- * @author tmp-sda-1171
+ * @author Dania Tamim
  */
 public class ToDoList {
 
@@ -62,9 +62,15 @@ public class ToDoList {
 
     }
 
+    /**
+     *
+     * @param index of the Task to update
+     * @param newTitle of the task to update
+     * @param newDate of the task to update
+     * @param newProject of the task to update
+     */
     public void updateTask(int index, String newTitle, Date newDate, String newProject) {
-        if (index < tasks.size()) 
-        {
+        if (index < tasks.size()) {
             tasks.get(index).setDueDate(newDate);
             tasks.get(index).setProject(newProject);
             tasks.get(index).setTitle(newTitle);
@@ -72,14 +78,27 @@ public class ToDoList {
 
     }
 
+    /**
+     *
+     * @param task to set it as done
+     */
     public void setTaskDone(Task task) {
         task.setIsDone(true);
     }
 
+    /**
+     *
+     * @param task to remove from the ArrayList of Tasks
+     */
     public void removeTask(Task task) {
         tasks.remove(task);
     }
 
+    /**
+     *
+     * @param project to get all the tasks belong to it
+     * @return ArrayList of Tasks filtered by the project
+     */
     public ArrayList<Task> searchByProject(String project) {
 
         ArrayList<Task> filteredByProjectTasks = new ArrayList<>();
@@ -90,6 +109,11 @@ public class ToDoList {
         return filteredByProjectTasks;
     }
 
+    /**
+     *
+     * @param dueDate to get all the tasks with the Due date
+     * @return ArrayList of Tasks filtered by the due date
+     */
     public ArrayList<Task> searchByDueDate(Date dueDate) {
 
         ArrayList<Task> filteredByDueDateTasks = new ArrayList<>();
@@ -100,16 +124,29 @@ public class ToDoList {
         return filteredByDueDateTasks;
     }
 
+    /**
+     * Save the ArrayList of Tasks to the file throw the controller
+     */
     public void saveToDoList() {
 
         myFileHandler.saveToDoList(tasks);
 
     }
 
+    /**
+     * read the file to get Tasks
+     *
+     * @return ArrayList of Tasks
+     */
     public ArrayList<Task> readToDoList() {
         return myFileHandler.readToDoList();
     }
 
+    /**
+     * Get the number of the Done Tasks from the ArrayList of Tasks
+     *
+     * @return integer as the number of Done Tasks
+     */
     public int numOfDoneTask() {
 
         int filteredByDoneTasks = 0;
@@ -123,18 +160,34 @@ public class ToDoList {
         return filteredByDoneTasks;
     }
 
+    /**
+     * Get the number of UnDone Tasks
+     *
+     * @return integer as the number of the undone tasks
+     */
     public int numOfNotDoneTask() {
 
         return tasks.size() - numOfDoneTask();
 
     }
 
+    /**
+     * Sort the ArrayList of tasks by the DueDate
+     *
+     * @param list of Tasks to sort it
+     * @return the same list Sorted by due date
+     */
     public ArrayList<Task> sortByDueDate(ArrayList<Task> list) {
         //tasks.get(i).compare();
         Collections.sort(list);
         return list;
     }
 
+    /**
+     * Sort the ArrayList of tasks by the DueDate
+     *
+     * @return the same list Sorted by due date
+     */
     public ArrayList<Task> sortByDueDate() {
         //tasks.get(i).compare();
         return sortByDueDate(tasks);
@@ -143,8 +196,24 @@ public class ToDoList {
         return tasks;*/
     }
 
+    /**
+     * Sort the ArrayList of tasks by the project name
+     *
+     * @param list of Tasks to sort it
+     * @return the same list Sorted by project
+     */
+    public ArrayList<Task> sortByProject(ArrayList<Task> list) {
+        //tasks.get(i).compare();
+        Collections.sort(list);
+        return list;
+    }
+
+    /**
+     * Sort the ArrayList of tasks by the project name
+     * @return the same list Sorted by project
+     */
     public ArrayList<Task> sortByProject() {
         //tasks.get(i).compare();
-        return this.tasks;
+        return sortByProject(tasks);
     }
 }
