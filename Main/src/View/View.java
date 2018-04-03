@@ -34,7 +34,7 @@ public class View {
      */
     public void printWelcome() {
 
-        System.out.println(">> Welcome to ToDoly \n "
+        System.out.println(">> Welcome to ToDoly \n"
                 + ">> You have   " + contr.numOfNotDoneTask() + "  tasks todo and   " + contr.numOfDoneTask() + "  tasks are done! \n ");
 
     }
@@ -44,14 +44,14 @@ public class View {
      */
     public void printMenu() {
 
-        System.out.println(">> Pick an option: \n "
-                + ">> (1) Show Task List (Sorted by date or project) \n "
-                + ">> (2) Add New Task \n "
-                + ">> (3) Edit Task (update, mark as done, remove) \n "
-                + ">> (4) Search By Project Name \n "
-                + ">> (5) Save and Quit  \n "
+        System.out.println(">> Pick an option: \n"
+                + ">> (1) Show Task List (Sorted by date or project) \n"
+                + ">> (2) Add New Task \n"
+                + ">> (3) Edit Task (update, mark as done, remove) \n"
+                + ">> (4) Search By Project Name \n"
+                + ">> (5) Save and Quit  \n"
                 + ">> \n "
-                + ">>  Enter your choice : \n");
+                + ">> Enter your choice : \n");
         parseUserInput(getUserInput());
 
     }
@@ -91,9 +91,7 @@ public class View {
                         break;
                     }
                     case 2: {
-
                         showAddTaskMenu();
-                        // menuType = "MainMenu";
                         break;
                     }
                     case 3: {
@@ -304,12 +302,12 @@ public class View {
      */
     private void showUpdateTaskMenu() {
 
-        System.out.println(" \n "
+        System.out.println("\n"
                 + ">> Edit Task :  \n"
-                + ">> (1) Update Task  \n "
+                + ">> (1) Update Task  \n"
                 + ">> (2) Mark Task as Done  \n"
-                + ">> (3) Remove Task) \n "
-                + ">> (0) To Go Back \n "
+                + ">> (3) Remove Task) \n"
+                + ">> (0) To Go Back \n"
                 + ">> \n "
                 + ">>  Enter your choice : \n");
         parseUserInput(getUserInput());
@@ -324,7 +322,8 @@ public class View {
         Date newDate;
 
         int index = getWantedTaskIndex();
-
+        if (index != -1)
+        {
         // edit title
         System.out.println("Enter the new title , or enter no to keep it :");
 
@@ -333,8 +332,7 @@ public class View {
         if (tmpTitle.equals("no")) {
 
             newTitle = contr.getTasks().get(index).getTitle();
-        } 
-        else {
+        } else {
             newTitle = tmpTitle;
 
         }
@@ -347,8 +345,7 @@ public class View {
 
             newProject = contr.getTasks().get(index).getProject();
 
-        } 
-        else {
+        } else {
             newProject = tmpProject;
 
         }
@@ -362,8 +359,7 @@ public class View {
 
             newDate = contr.getTasks().get(index).getDueDate();
 
-        } 
-        else {
+        } else {
             newDate = stringToDate(tmpDate);
 
         }
@@ -372,7 +368,9 @@ public class View {
 
         System.out.println("Task Updated Successfully");
         showUpdateTaskMenu();
-
+        }
+        else
+        {showUpdateTaskMenu();}
     }
 
     /**
@@ -384,42 +382,51 @@ public class View {
         System.out.println("Great job !!");
         showUpdateTaskMenu();
     }
-/**
- * Remove task from the ArrayList of tasks
- */
+
+    /**
+     * Remove task from the ArrayList of tasks
+     */
     private void removeTask() {
         int index = getWantedTaskIndex();
+        if (index != -1 ) { 
+       
         contr.getTasks().remove(index);
         System.out.println("Task Removed !");
         showUpdateTaskMenu();
+        }
     }
 
     /**
-     * Print the ArrayList of tasks and get the index of the task we choose 
-     * and check if it is a valid index
+     * Print the ArrayList of tasks and get the index of the task we choose and
+     * check if it is a valid index
+     *
      * @return index as integer
      */
     private int getWantedTaskIndex() {
+        if (contr.getTasks().isEmpty()) {
+            System.out.println("There is no tasks to edit .. ");
+            return -1;
+        } 
+        else {
+            printToDoList(contr.getTasks());
 
-        printToDoList(contr.getTasks());
+            System.out.println("Enter the number of the task you want to edit : ");
 
-        System.out.println("Enter the number of the task you want to edit : ");
+            int index = getUserInput();
 
-        int index = getUserInput();
+            if (index < contr.getTasks().size()) {
+                return index;
+            } else {
+                System.out.println("Not a valid index !! ");
+                return getWantedTaskIndex();
 
-        if (index < contr.getTasks().size()) {
-            return index;
-        } else {
-            System.out.println("Not a valid index !! ");
-            return getWantedTaskIndex();
-
+            }
         }
     }
-    
+
     /**
      * print the ArrayList of tasks sorted by Due date
      */
-
     private void showByDate() {
 
         System.out.println("*********    Date Sorted  *************");
@@ -439,10 +446,11 @@ public class View {
         showTaskMenu();
 
     }
-/**
- * Searching the ArrayList of tasks for the specified project name
- * and print the filtered list to the user
- */
+
+    /**
+     * Searching the ArrayList of tasks for the specified project name and print
+     * the filtered list to the user
+     */
     private void showSearchMenu() {
         System.out.println("Enter Project Name : \n");
         String searchedProject = readText();

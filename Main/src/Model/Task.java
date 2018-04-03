@@ -22,13 +22,16 @@ public class Task implements Comparable, Serializable {
     private boolean isDone;
 
     private String project;
-    
 
     public Task(String Title, Date dueDate, String project) {
-        this.Title = Title;
-        this.dueDate = dueDate;
-        this.isDone = false;
-        this.project = project;
+        if (this == null) {
+        } 
+        else {
+            this.Title = Title;
+            this.dueDate = dueDate;
+            this.isDone = false;
+            this.project = project;
+        }
     }
 
     // public Setters and Getters
@@ -67,24 +70,13 @@ public class Task implements Comparable, Serializable {
 
     //*******************************
     /**
-     * Add New Task with the status undone by default
-     * @param title
-     * @param dutDate
-     * @param project
-     * @return new Task object
-     */
-    public Task addTask(String title, Date dutDate, String project) {
-        return new Task(title, dueDate, project);
-    }
-
-    
-    /**
      * Update the task with new values
+     *
      * @param title
      * @param dutDate
      * @param isdone
      * @param project
-     * @return the Task with the updated values 
+     * @return the Task with the updated values
      */
     public Task updateTask(String title, Date dutDate, boolean isdone, String project) {
 
@@ -96,16 +88,16 @@ public class Task implements Comparable, Serializable {
         return this;
     }
 
-  /**
-   * override the tosString method to be able to print the Tasks 
-   * and save it to the file 
-   * @return String of the Tasks Object attributes
-   */
-
+    /**
+     * override the tosString method to be able to print the Tasks and save it
+     * to the file
+     *
+     * @return String of the Tasks Object attributes
+     */
     @Override
     public String toString() {
 
-        SimpleDateFormat form = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat form = new SimpleDateFormat("dd-MM-yyyy");
         Date date = getDueDate();
 
         String status;
@@ -123,30 +115,14 @@ public class Task implements Comparable, Serializable {
 
     }
 
-//    @Override
-//    public int compareTo(Object task) {
-//
-//        Task t = (Task) task;
-//        if (task == null) {
-//            return -500;
-//        }
-//
-//        if (this.getProject().equals(t.getProject())) {
-//            return this.getDueDate().compareTo(t.getDueDate());
-//        } else {
-//            return this.getProject().compareTo(t.getProject());
-//        }
-//
-//    }
-    
-    
     /**
-     * Compare two tasks objects with the due date 
-     * and if it is equals compare them by the project name
-     * @param task 
-     * @return 0 if the two tasks are equal and 1 if the first is bigger or -1 if it is smaller
+     * Compare two tasks objects with the due date and if it is equals compare
+     * them by the project name
+     *
+     * @param task
+     * @return 0 if the two tasks are equal and 1 if the first is bigger or -1
+     * if it is smaller
      */
-    
     @Override
     public int compareTo(Object task) {
 
@@ -185,5 +161,20 @@ public class Task implements Comparable, Serializable {
 //        else {
 //        return task;
 //        }
+//    }
+    //    @Override
+//    public int compareTo(Object task) {
+//
+//        Task t = (Task) task;
+//        if (task == null) {
+//            return -500;
+//        }
+//
+//        if (this.getProject().equals(t.getProject())) {
+//            return this.getDueDate().compareTo(t.getDueDate());
+//        } else {
+//            return this.getProject().compareTo(t.getProject());
+//        }
+//
 //    }
 }

@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,14 +27,17 @@ public class ToDoList {
     private MyFileHandler myFileHandler;
 
     //******************************'
-    public ToDoList(String name) throws IOException {
+    public ToDoList(String name) {
+
         this.myFileHandler = new MyFileHandler("ToDoListFile.txt");
 
         this.name = name;
         tasks = myFileHandler.readToDoList();
+
     }
 
-    public ToDoList(String name, ArrayList<Task> tasks) throws IOException {
+    public ToDoList(String name, ArrayList<Task> tasks) {
+
         this.myFileHandler = new MyFileHandler("ToDoListFile.txt");
 
         this.name = name;
@@ -70,12 +75,13 @@ public class ToDoList {
      * @param newProject of the task to update
      */
     public void updateTask(int index, String newTitle, Date newDate, String newProject) {
-        if (index < tasks.size()) {
-            tasks.get(index).setDueDate(newDate);
-            tasks.get(index).setProject(newProject);
-            tasks.get(index).setTitle(newTitle);
+        if (!tasks.isEmpty()) {
+            if (index < tasks.size()) {
+                tasks.get(index).setDueDate(newDate);
+                tasks.get(index).setProject(newProject);
+                tasks.get(index).setTitle(newTitle);
+            }
         }
-
     }
 
     /**
@@ -83,7 +89,10 @@ public class ToDoList {
      * @param task to set it as done
      */
     public void setTaskDone(Task task) {
-        task.setIsDone(true);
+        if (!tasks.isEmpty()) {
+            task.setIsDone(true);
+        } else {
+        }
     }
 
     /**
@@ -91,7 +100,9 @@ public class ToDoList {
      * @param task to remove from the ArrayList of Tasks
      */
     public void removeTask(Task task) {
-        tasks.remove(task);
+        if (!tasks.isEmpty()) {
+            tasks.remove(task);
+        }
     }
 
     /**
@@ -100,13 +111,17 @@ public class ToDoList {
      * @return ArrayList of Tasks filtered by the project
      */
     public ArrayList<Task> searchByProject(String project) {
+        if (!tasks.isEmpty()) {
 
-        ArrayList<Task> filteredByProjectTasks = new ArrayList<>();
+            ArrayList<Task> filteredByProjectTasks = new ArrayList<>();
 
-        tasks.stream().filter((task) -> (task.getProject().equals(project))).forEachOrdered((task) -> {
-            filteredByProjectTasks.add(task);
-        });
-        return filteredByProjectTasks;
+            tasks.stream().filter((task) -> (task.getProject().equals(project))).forEachOrdered((task) -> {
+                filteredByProjectTasks.add(task);
+            });
+            return filteredByProjectTasks;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -115,21 +130,30 @@ public class ToDoList {
      * @return ArrayList of Tasks filtered by the due date
      */
     public ArrayList<Task> searchByDueDate(Date dueDate) {
+        if (!tasks.isEmpty()) {
 
-        ArrayList<Task> filteredByDueDateTasks = new ArrayList<>();
+            ArrayList<Task> filteredByDueDateTasks = new ArrayList<>();
 
-        tasks.stream().filter((task) -> (task.getDueDate() == dueDate)).forEachOrdered((task) -> {
-            filteredByDueDateTasks.add(task);
-        });
-        return filteredByDueDateTasks;
+            tasks.stream().filter((task) -> (task.getDueDate() == dueDate)).forEachOrdered((task) -> {
+                filteredByDueDateTasks.add(task);
+            });
+            return filteredByDueDateTasks;
+        } else {
+            return null;
+        }
     }
 
     /**
      * Save the ArrayList of Tasks to the file throw the controller
      */
     public void saveToDoList() {
+        if (tasks != null) {
 
-        myFileHandler.saveToDoList(tasks);
+            myFileHandler.saveToDoList(tasks);
+
+        }
+        else 
+            myFileHandler.saveToDoList(null);
 
     }
 
@@ -148,16 +172,19 @@ public class ToDoList {
      * @return integer as the number of Done Tasks
      */
     public int numOfDoneTask() {
+        if (!tasks.isEmpty()) {
+            int filteredByDoneTasks = 0;
 
-        int filteredByDoneTasks = 0;
-
-        for (int i = 0; i < tasks.size(); i++) {
-            if (tasks.get(i).isIsDone() == true) {
-                filteredByDoneTasks++;
+            for (int i = 0; i < tasks.size(); i++) {
+                if (tasks.get(i).isIsDone() == true) {
+                    filteredByDoneTasks++;
+                }
             }
-        }
 
-        return filteredByDoneTasks;
+            return filteredByDoneTasks;
+        } else {
+            return 0;
+        }
     }
 
     /**
@@ -166,8 +193,11 @@ public class ToDoList {
      * @return integer as the number of the undone tasks
      */
     public int numOfNotDoneTask() {
-
-        return tasks.size() - numOfDoneTask();
+        if (!tasks.isEmpty()) {
+            return tasks.size() - numOfDoneTask();
+        } else {
+            return 0;
+        }
 
     }
 
@@ -210,6 +240,7 @@ public class ToDoList {
 
     /**
      * Sort the ArrayList of tasks by the project name
+     *
      * @return the same list Sorted by project
      */
     public ArrayList<Task> sortByProject() {

@@ -15,6 +15,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,15 +27,21 @@ public class MyFileHandler {
     //private String fileName;
     private File file;
 
-    public MyFileHandler(String filename) throws IOException {
+    public MyFileHandler(String filename)  {
         file = new File(filename);
-        file.createNewFile();
+        try {
+            file.createNewFile();
+        } catch (IOException ex) {
+            Logger.getLogger(MyFileHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
-/**
- * read the tasks from the file
- * @return ArrayList of Tasks
- */
+
+    /**
+     * read the tasks from the file
+     *
+     * @return ArrayList of Tasks
+     */
     public ArrayList<Task> readToDoList() {
 
         ArrayList<Task> readedtasks = new ArrayList<>();
@@ -41,38 +49,59 @@ public class MyFileHandler {
             FileInputStream fileStream = new FileInputStream(file);
             ObjectInputStream objStream = new ObjectInputStream(fileStream);
 
-           
-            /*if(objStream.readObject() == null)
-                readedtasks = new ArrayList<Task>();
-            else 
-            // Read objects*/
             readedtasks = (ArrayList<Task>) objStream.readObject();
+
             fileStream.close();
             objStream.close();
         } catch (IOException | ClassNotFoundException ioe) {
-            System.out.println("Data.MyFileHandler.readToDoList()");
+            System.out.println("Creating New File . . . ");
         }
 
         return readedtasks;
     }
 
     /**
-     * Save the tasks to the file 
-     * @param ArrayList of tasks
+     * Save the tasks to the file
+     *
+     * @param tasks as an ArrayList
      */
     public void saveToDoList(ArrayList<Task> tasks) {
+        if (tasks != null) {
+            if (!tasks.isEmpty()) {
+                FileOutputStream fileStream;
+                ObjectOutputStream objStream;
+                try {
+                    fileStream = new FileOutputStream(file);
+                    objStream = new ObjectOutputStream(fileStream);
 
-        FileOutputStream fileStream;
-        ObjectOutputStream objStream;
-        try {
-            fileStream = new FileOutputStream(file);
-            objStream = new ObjectOutputStream(fileStream);
+                    objStream.writeObject(tasks);
+                    fileStream.close();
+                    objStream.close();
+                } catch (Exception e) {
+                    System.out.println("Data.MyFileHandler.readToDoList()");
+                }
 
-            objStream.writeObject(tasks);
-            fileStream.close();
-            objStream.close();
-        } catch (Exception e) {
-            System.out.println("Data.MyFileHandler.readToDoList()");
+            } else {
+
+                file.delete();
+
+            }
+
+        } else {
+
+            FileOutputStream fileStream;
+            ObjectOutputStream objStream;
+            try {
+                file.delete();
+                fileStream = new FileOutputStream(file);
+                objStream = new ObjectOutputStream(fileStream);
+
+                objStream.writeObject(null);
+                fileStream.close();
+                objStream.close();
+            } catch (Exception e) {
+                System.out.println("Data.MyFileHandler.readToDoList()");
+            }
         }
 
     }
