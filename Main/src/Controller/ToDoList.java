@@ -7,12 +7,9 @@ package Controller;
 
 import Data.MyFileHandler;
 import Model.Task;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -219,11 +216,9 @@ public class ToDoList {
      * @return the same list Sorted by due date
      */
     public ArrayList<Task> sortByDueDate() {
-        //tasks.get(i).compare();
+      
         return sortByDueDate(tasks);
-        /*ArrayList<Task> arr = new ArrayList<>();
-        Collections.sort(tasks);
-        return tasks;*/
+      
     }
 
     /**
@@ -233,7 +228,7 @@ public class ToDoList {
      * @return the same list Sorted by project
      */
     public ArrayList<Task> sortByProject(ArrayList<Task> list) {
-        //tasks.get(i).compare();
+       
         Collections.sort(list);
         return list;
     }
@@ -244,7 +239,7 @@ public class ToDoList {
      * @return the same list Sorted by project
      */
     public ArrayList<Task> sortByProject() {
-        //tasks.get(i).compare();
+     
         return sortByProject(tasks);
     }
 }

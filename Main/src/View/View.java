@@ -216,9 +216,14 @@ public class View {
         System.out.println("Enter Project :\n ");
         String project = readText();
 
-        System.out.println("Enter Due Date :\n ");
+        System.out.println("Enter Due Date (With the Format : dd-MM-yyyy) :\n ");
 
-        Date dueDate = stringToDate(readText());
+        String tmpDate = readText();
+        Date dueDate = stringToDate(tmpDate);
+        while (dueDate == null) {
+
+            dueDate = stringToDate(readText());
+        }
 
         Task newtask = new Task(title, dueDate, project);
 
@@ -270,12 +275,14 @@ public class View {
      */
     public Date stringToDate(String dateString) {
         //String string = "January 2, 2010";''
-        Date date = null;
+        Date date = new Date();
         try {
             DateFormat form = new SimpleDateFormat("dd-MM-yyyy");
             date = form.parse(dateString);
         } catch (ParseException ex) {
-            Logger.getLogger(View.class.getName()).log(Level.SEVERE, null, ex);
+            date = null;
+            System.out.println("Enter a valid format please !!");
+
         }
 
         return date;
@@ -322,55 +329,57 @@ public class View {
         Date newDate;
 
         int index = getWantedTaskIndex();
-        if (index != -1)
-        {
-        // edit title
-        System.out.println("Enter the new title , or enter no to keep it :");
+        if (index != -1) {
+            // edit title
+            System.out.println("Enter the new title , or enter no to keep it :");
 
-        tmpTitle = readText();
+            tmpTitle = readText();
 
-        if (tmpTitle.equals("no")) {
+            if (tmpTitle.equals("no")) {
 
-            newTitle = contr.getTasks().get(index).getTitle();
+                newTitle = contr.getTasks().get(index).getTitle();
+            } else {
+                newTitle = tmpTitle;
+
+            }
+            //edit Project
+            System.out.println("Enter the new project , or enter no to keep it :");
+
+            tmpProject = readText();
+
+            if (tmpProject.equals("no")) {
+
+                newProject = contr.getTasks().get(index).getProject();
+
+            } else {
+                newProject = tmpProject;
+
+            }
+
+            // edit Date
+            System.out.println("Enter the new Due Date (With the Format : dd-MM-yyyy), or enter no to keep it  :");
+
+            tmpDate = readText();
+
+            if (tmpDate.equals("no")) {
+
+                newDate = contr.getTasks().get(index).getDueDate();
+
+            } else {
+                newDate = stringToDate(tmpDate);
+                while (newDate == null) {
+                    newDate = stringToDate(readText());
+                }
+
+            }
+
+            contr.updateTask(index, newTitle, newDate, newProject);
+
+            System.out.println("Task Updated Successfully");
+            showUpdateTaskMenu();
         } else {
-            newTitle = tmpTitle;
-
+            showUpdateTaskMenu();
         }
-        //edit Project
-        System.out.println("Enter the new project , or enter no to keep it :");
-
-        tmpProject = readText();
-
-        if (tmpProject.equals("no")) {
-
-            newProject = contr.getTasks().get(index).getProject();
-
-        } else {
-            newProject = tmpProject;
-
-        }
-
-        // edit Date
-        System.out.println("Enter the new Due Date, or enter no to keep it  :");
-
-        tmpDate = readText();
-
-        if (tmpDate.equals("no")) {
-
-            newDate = contr.getTasks().get(index).getDueDate();
-
-        } else {
-            newDate = stringToDate(tmpDate);
-
-        }
-
-        contr.updateTask(index, newTitle, newDate, newProject);
-
-        System.out.println("Task Updated Successfully");
-        showUpdateTaskMenu();
-        }
-        else
-        {showUpdateTaskMenu();}
     }
 
     /**
@@ -388,11 +397,11 @@ public class View {
      */
     private void removeTask() {
         int index = getWantedTaskIndex();
-        if (index != -1 ) { 
-       
-        contr.getTasks().remove(index);
-        System.out.println("Task Removed !");
-        showUpdateTaskMenu();
+        if (index != -1) {
+
+            contr.getTasks().remove(index);
+            System.out.println("Task Removed !");
+            showUpdateTaskMenu();
         }
     }
 
@@ -406,8 +415,7 @@ public class View {
         if (contr.getTasks().isEmpty()) {
             System.out.println("There is no tasks to edit .. ");
             return -1;
-        } 
-        else {
+        } else {
             printToDoList(contr.getTasks());
 
             System.out.println("Enter the number of the task you want to edit : ");
@@ -429,9 +437,9 @@ public class View {
      */
     private void showByDate() {
 
-        System.out.println("*********    Date Sorted  *************");
+        System.out.println("******************************    Date Sorted  ***********************************");
         printToDoList(contr.sortByDueDate());
-        System.out.println("***************************************");
+        System.out.println("**********************************************************************************");
         showTaskMenu();
 
     }
@@ -440,9 +448,9 @@ public class View {
      * print the ArrayList of tasks sorted by Project
      */
     private void showByProject() {
-        System.out.println("*********    Project Sorted  **********");
+        System.out.println("****************************    Project Sorted  *********************************");
         printToDoList(contr.sortByProject());
-        System.out.println("***************************************");
+        System.out.println("*********************************************************************************");
         showTaskMenu();
 
     }
@@ -455,7 +463,12 @@ public class View {
         System.out.println("Enter Project Name : \n");
         String searchedProject = readText();
         ArrayList searchTask = contr.searchByProject(searchedProject);
-        printToDoList(searchTask);
+        if (searchTask.isEmpty()) {
+            System.out.println("No Tasks Found !! ");
+        } else {
+            printToDoList(searchTask);
+
+        }
         printMenu();
 
     }

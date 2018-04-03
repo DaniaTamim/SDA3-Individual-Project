@@ -112,6 +112,7 @@ public class Task implements Comparable, Serializable {
                 + "  project is : " + getProject() + "   "
                 + " due date is : " + form.format(date) + "   "
                 + status + "\n";
+                
 
     }
 
