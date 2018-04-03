@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author tmp-sda-1171
+ * @author Dania Tamim
  */
 public class MyFileHandlerTest {
     
@@ -45,12 +45,11 @@ public class MyFileHandlerTest {
     @Test
     public void testReadToDoList() {
         System.out.println("readToDoList");
-        MyFileHandler instance = null;
-        ArrayList<Task> expResult = null;
+        MyFileHandler instance = new MyFileHandler("dania");
+        ArrayList<Task> expResult =  new ArrayList<>();
         ArrayList<Task> result = instance.readToDoList();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        
     }
 
     /**
@@ -59,11 +58,10 @@ public class MyFileHandlerTest {
     @Test
     public void testSaveToDoList() {
         System.out.println("saveToDoList");
-        ArrayList<Task> tasks = null;
-        MyFileHandler instance = null;
+        ArrayList<Task> tasks =new ArrayList<>();
+        MyFileHandler instance = new MyFileHandler("dania");
         instance.saveToDoList(tasks);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+      
     }
     
 }
